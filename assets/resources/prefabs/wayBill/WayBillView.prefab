@@ -3,12 +3,10 @@
     "__type__": "cc.Prefab",
     "_name": "",
     "_objFlags": 0,
-    "_native": "",
+    "_rawFiles": null,
     "data": {
       "__id__": 1
-    },
-    "optimizationPolicy": 0,
-    "asyncLoadAssets": false
+    }
   },
   {
     "__type__": "cc.Node",
@@ -166,7 +164,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "alignMode": 2,
+    "isAlignOnce": true,
     "_target": null,
     "_alignFlags": 45,
     "_left": 0,
@@ -981,8 +979,6 @@
       "__id__": 14
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
     "isAlignOnce": {},
     "_target": null,
     "_alignFlags": 37,
@@ -1559,8 +1555,6 @@
       "__id__": 33
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
     "isAlignOnce": {},
     "_target": null,
     "_alignFlags": 37,
@@ -2159,8 +2153,6 @@
       "__id__": 53
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
     "isAlignOnce": {},
     "_target": null,
     "_alignFlags": 37,
@@ -2758,8 +2750,6 @@
       "__id__": 73
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
     "isAlignOnce": {},
     "_target": null,
     "_alignFlags": 37,
@@ -3333,8 +3323,6 @@
       "__id__": 92
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
     "isAlignOnce": {},
     "_target": null,
     "_alignFlags": 37,
@@ -9378,7 +9366,7 @@
       "__id__": 6
     },
     "_enabled": true,
-    "alignMode": 2,
+    "isAlignOnce": true,
     "_target": null,
     "_alignFlags": 40,
     "_left": 10,
@@ -9496,9 +9484,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 184,
-      "g": 184,
-      "b": 184,
+      "r": 92,
+      "g": 90,
+      "b": 141,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -9879,7 +9867,7 @@
       "__id__": 302
     },
     "_enabled": true,
-    "alignMode": 0,
+    "isAlignOnce": true,
     "_target": null,
     "_alignFlags": 37,
     "_left": 350.07654921020657,
@@ -10568,7 +10556,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "alignMode": 0,
+    "isAlignOnce": true,
     "_target": null,
     "_alignFlags": 45,
     "_left": 0,

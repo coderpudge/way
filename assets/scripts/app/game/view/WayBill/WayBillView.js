@@ -17,7 +17,8 @@ cc.Class({
 
     onLoad: function () {
         this._super()
-        this._data_saveName = 'way_bill_data3'
+        // this._data_saveName = 'way_bill_data'+ Math.ceil(Math.random() * 1000 )
+        this._data_saveName = 'way_bill_data'+ 10
         this.isPreView = false; //是否预览;
         this.storageWayData = [];
         this.readData();
@@ -812,20 +813,17 @@ cc.Class({
         data= parseInt(data);
 
         this.wayData = this.wayData || [];
-        var item = {};
-        let array = [];
-        array.push(data);
+        let item = {state_list:[data],points:''};
+        // item.state_list.push(data);
         if (this.find("checkZhuangDui").getComponent(cc.Toggle).isChecked) {
-            array.push(4);
+            item.state_list.push(4);
         }
         if (this.find("checkXianDui").getComponent(cc.Toggle).isChecked) {
-            array.push(5);
+            item.state_list.push(5);
         }
         if (this.find("checkTianPai").getComponent(cc.Toggle).isChecked) {
-            array.push(6);
+            item.state_list.push(6);
         }
-        item.state_list = array;
-        item.points = '';
         this.wayData.push(item);
         this.hideZXdui();
         this.setData(this.wayData);
@@ -845,11 +843,11 @@ cc.Class({
         }else if(data == '2'){
             if(this.wayData.length > 0){
 
-                let data = this.packData();
-                this.storageWayData.unshift(data);
+                // let data = this.packData();
+                this.storageWayData.unshift(this.wayData);
+                this.writeData();
                 this.list.set_data(this.storageWayData);
                 cc.log(this.storageWayData);
-                this.writeData()
             }
             this.wayData = [];
         }
@@ -897,21 +895,59 @@ cc.Class({
         model.tian = tianpai
         model.zhuangdui = zhuangdui
         model.xiandui = xiandui
-        model.wayBill = [];
-        for (const item of this.wayData) {
-            model.wayBill.push(clone(item))
-        }
+        // model.wayBill = [];
+        model.wayBill = this.wayData;
+        // for (const item of this.wayData) {
+        //     model.wayBill.push((item))
+        // }
         return model;
     },
 
     readData(){
         let data = cc.sys.localStorage.getItem(this._data_saveName);
         if (data && data != 'undefined') {
-            this.storageWayData = JSON.parse(data);
+            let storageData = JSON.parse(data);
+            this.storageWayData = this.objToArray(storageData);
         }
     },
     writeData(){
-        var jsonStr = JSON.stringify(this.storageWayData);
+        let data = this.arrayToObj();
+        var jsonStr = JSON.stringify(data);
         cc.sys.localStorage.setItem(this._data_saveName,jsonStr);
     },
+
+    arrayToObj(){
+        let data = {};
+        for (let i = 0; i < this.storageWayData.length; i++) {
+            let way = this.storageWayData[i];
+            let  newItem = {};
+            for (let j = 0; j < way.length; j++) {
+                let item = way[j];
+                newItem[j+''] = {};
+                newItem[j+''].state_list = item.state_list;
+                newItem[j+''].points = item.points;
+            }
+            data[i + ''] = newItem;
+        }
+        return data;
+    },
+    objToArray(storageData){
+        let data = [];
+        for (const key in storageData) {
+            if (storageData.hasOwnProperty(key)) {
+                let way = storageData[key];
+                let newWay = [];
+                for (const key2 in way) {
+                    if (way.hasOwnProperty(key2)) {
+                        let item = way[key2];
+                        newWay[parseInt(key2)] = item;
+                    }
+                }
+                data[parseInt(key)] = newWay;
+                
+            }
+        }
+        return data;
+    }
+
 });
