@@ -293,6 +293,36 @@ cc.Class({
             item.position = { x: (pos.col - 1) * width - 2, y: (6 - pos.row) * height }
         }
     },
+    addQiPaiLuView: function (data) {
+        this.qipailuData = data
+        // var layout_qipailu = this.find("layout_qipailu")
+        var layout_qipailu = this.find("contentQiPaiLu").getChildByName("layout_qipailu")
+        function getNextPos(index) {
+            var row = index % 6
+            if (0 == row) {
+                row = 6
+            }
+            var col = Math.ceil(index / 6)
+            return { row: row, col: col }
+        }
+        
+        let i = data.length;
+        var pos = getNextPos(i);
+        let name = pos.row+'-'+pos.col
+        var item = layout_qipailu.getChildByName(name);
+        if (!item) {
+            item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
+        }
+        item.getComponent("QipailuItem").setData(clone(data[i]))
+        item.parent = layout_qipailu
+        item.name = name;
+        // var width = 49
+        // var height = 50
+        var width = 44
+        var height = 44
+        item.position = { x: (pos.col - 1) * width - 2, y: (6 - pos.row) * height }
+
+    },
 
     getBigWayData: function (qipailuData) {
         var bigwayData = {} //每一列都是一个长度不定的数组
@@ -808,10 +838,31 @@ cc.Class({
         }
     },
     
+    showLoading(data){
+        let loading = this.find("wayLoading");
+        
+        let zhuang = loading.getChildByName('zhuang')
+        let xian = loading.getChildByName('xian')
+        let he = loading.getChildByName('he')
+        
+        zhuang.active = data == 1;
+        xian.active = data == 2;
+        he.active = data == 3;
+        loading.active = true;
+        let delay = cc.delayTime(1);
+        loading.active = true;
+        let callFun = cc.callFunc(()=>{
+            loading.active = false;
+        });
+        loading.runAction(cc.sequence(delay,callFun));
+    },
+    hideLoading(){
+        this.find("wayLoading").active = false;
+    },
     
     addData(event,data){
         data= parseInt(data);
-
+        this.showLoading(data);
         this.wayData = this.wayData || [];
         let item = {state_list:[data],points:''};
         // item.state_list.push(data);
@@ -827,6 +878,7 @@ cc.Class({
         this.wayData.push(item);
         this.hideZXdui();
         this.setData(this.wayData);
+        // this.hideLoading();
     },
     removeData(event,data){
         if (this.isPreView) {
