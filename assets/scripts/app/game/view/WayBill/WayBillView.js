@@ -1,7 +1,9 @@
 var BaseView = require("BaseView")
 var BigwayData = require("WayBillData").BigwayData
 
-import {ListView} from "listview"
+import {
+    ListView
+} from "listview"
 
 cc.Class({
     extends: BaseView,
@@ -17,8 +19,10 @@ cc.Class({
 
     onLoad: function () {
         this._super()
+        this.getDeviceId();
         // this._data_saveName = 'way_bill_data'+ Math.ceil(Math.random() * 1000 )
-        this._data_saveName = 'way_bill_data'+ 10
+        this._data_saveName = 'way_bill_data' + 10
+        this._data_lastUploadLength = "way_bill_data_last_Length";
         this.isPreView = false; //是否预览;
         this.storageWayData = [];
         this.readData();
@@ -28,24 +32,24 @@ cc.Class({
         this.item_tpl = this.find('tplItem').node
 
         this.list = new ListView({
-            scrollview:this.scrollview,
-            mask:this.mask,
-            content:this.content,
-            item_tpl:this.item_tpl,
-            cb_host:this,
-            item_setter:this.list_item_setter,
-            select_cb:this.list_item_onselect,
-            recycle_cb:this.list_item_onrecycle,
-            column:1,
-            gap_y:10,
-            direction:1,
+            scrollview: this.scrollview,
+            mask: this.mask,
+            content: this.content,
+            item_tpl: this.item_tpl,
+            cb_host: this,
+            item_setter: this.list_item_setter,
+            select_cb: this.list_item_onselect,
+            recycle_cb: this.list_item_onrecycle,
+            column: 1,
+            gap_y: 10,
+            direction: 1,
             // height:this.mask.height + this.item_tpl.height,
         });
-       
+
         this.list.set_data(this.storageWayData);
 
 
-        
+
         for (var i = 0; i < 3; i++) {
             this.find("imgZhuang" + i).node.active = false
             this.find("imgXian" + i).node.active = false
@@ -59,12 +63,11 @@ cc.Class({
         this.find("txtXiandui").string = "0"
     },
 
-    list_item_setter(item, data, index)
-    {
-        cc.log("item set",data,index);
+    list_item_setter(item, data, index) {
+        cc.log("item set", data, index);
         let com = item.getComponent("WayBillItem");
-        com.init(this,data,index);
-        
+        com.init(this, data, index);
+
     },
 
     clear: function name() {
@@ -76,7 +79,8 @@ cc.Class({
     },
 
     setData: function (chess_cards_way_list) {
-        this.wayData = clone(chess_cards_way_list)
+        this.wayData = chess_cards_way_list
+        // this.wayData = clone(chess_cards_way_list)
         this.clear()
         this.initQiPaiLuView(this.wayData)
         this.initTotalView()
@@ -84,76 +88,247 @@ cc.Class({
         this.initBigEyeWayView()
         this.initSmallWayView()
         this.initSmQiangWayView()
-        this.initForecastView(clone(chess_cards_way_list))
+        // this.initForecastView(clone(chess_cards_way_list))
 
         // cc.eventMgr.emit("onWayBillPreviewSetData", this.qipailuData)
     },
 
     test: function () {
         var chess_cards_way_list = []
-        chess_cards_way_list.push({ state_list: [3], points: 9 })
-        chess_cards_way_list.push({ state_list: [3,4], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 7 })
-        chess_cards_way_list.push({ state_list: [1,5], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [3, 4],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [1, 5],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
 
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
 
-        chess_cards_way_list.push({ state_list: [3], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 7 })
-        chess_cards_way_list.push({ state_list: [3,5], points: 7 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [2], points: 2 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [3, 5],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 2
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
 
-        chess_cards_way_list.push({ state_list: [2], points: 6 })
-        chess_cards_way_list.push({ state_list: [1], points: 3 })
-        chess_cards_way_list.push({ state_list: [1], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 6 })
-        chess_cards_way_list.push({ state_list: [1], points: 6 })
-        chess_cards_way_list.push({ state_list: [1], points: 6 })
-        chess_cards_way_list.push({ state_list: [2], points: 6 })
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 3
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
 
-        chess_cards_way_list.push({ state_list: [2], points: 6 })
-        chess_cards_way_list.push({ state_list: [3], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 7 })
-        chess_cards_way_list.push({ state_list: [2], points: 7 })
-        chess_cards_way_list.push({ state_list: [1], points: 5 })
-        chess_cards_way_list.push({ state_list: [3], points: 8 })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 6
+        })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 5
+        })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 8
+        })
 
-        chess_cards_way_list.push({ state_list: [1], points: 7 })
-        chess_cards_way_list.push({ state_list: [1], points: 4 })
-        chess_cards_way_list.push({ state_list: [3], points: 9 })
-        chess_cards_way_list.push({ state_list: [3], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 7 })
-        chess_cards_way_list.push({ state_list: [2], points: 9 })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 4
+        })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [3],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 7
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 9
+        })
 
-        chess_cards_way_list.push({ state_list: [2], points: 8 })
-        chess_cards_way_list.push({ state_list: [1], points: 5 })
-        chess_cards_way_list.push({ state_list: [2], points: 9 })
-        chess_cards_way_list.push({ state_list: [1], points: 8 })
-        chess_cards_way_list.push({ state_list: [1], points: 6 })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 5
+        })
+        chess_cards_way_list.push({
+            state_list: [2],
+            points: 9
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 8
+        })
+        chess_cards_way_list.push({
+            state_list: [1],
+            points: 6
+        })
 
 
 
@@ -279,7 +454,10 @@ cc.Class({
                 row = 6
             }
             var col = Math.ceil(index / 6)
-            return { row: row, col: col }
+            return {
+                row: row,
+                col: col
+            }
         }
         for (var i = 0; i < data.length; i++) {
             var item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
@@ -290,25 +468,32 @@ cc.Class({
             // var height = 50
             var width = 44
             var height = 44
-            item.position = { x: (pos.col - 1) * width - 2, y: (6 - pos.row) * height }
+            item.position = {
+                x: (pos.col - 1) * width - 2,
+                y: (6 - pos.row) * height
+            }
         }
     },
     addQiPaiLuView: function (data) {
         this.qipailuData = data
         // var layout_qipailu = this.find("layout_qipailu")
         var layout_qipailu = this.find("contentQiPaiLu").getChildByName("layout_qipailu")
+
         function getNextPos(index) {
             var row = index % 6
             if (0 == row) {
                 row = 6
             }
             var col = Math.ceil(index / 6)
-            return { row: row, col: col }
+            return {
+                row: row,
+                col: col
+            }
         }
-        
+
         let i = data.length;
         var pos = getNextPos(i);
-        let name = pos.row+'-'+pos.col
+        let name = pos.row + '-' + pos.col
         var item = layout_qipailu.getChildByName(name);
         if (!item) {
             item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
@@ -320,7 +505,10 @@ cc.Class({
         // var height = 50
         var width = 44
         var height = 44
-        item.position = { x: (pos.col - 1) * width - 2, y: (6 - pos.row) * height }
+        item.position = {
+            x: (pos.col - 1) * width - 2,
+            y: (6 - pos.row) * height
+        }
 
     },
 
@@ -350,8 +538,7 @@ cc.Class({
                 //如果开局为和
                 if (3 == getType(data)) {
                     isFirstHe = true
-                }
-                else {
+                } else {
                     bigwayData[1] = {}
                     bigwayData[1][1] = clone(data)
                     lastData = bigwayData[1][1]
@@ -421,7 +608,10 @@ cc.Class({
                 // var height = 35
                 var width = 40
                 var height = 40
-                item.position = { x: (row - 1) * width, y: (6 - col) * height }
+                item.position = {
+                    x: (row - 1) * width,
+                    y: (6 - col) * height
+                }
             }
         }
     },
@@ -452,8 +642,7 @@ cc.Class({
                     //无结果且同列的上一行也无结果，则有规则
                     else if (!bigwayData[i - 1][j] && !bigwayData[i - 1][j - 1]) {
                         array.push(true)
-                    }
-                    else {
+                    } else {
                         array.push(false)
                     }
                 }
@@ -481,8 +670,7 @@ cc.Class({
                 bigEyeWayData[row] = {}
                 col = 1
                 bigEyeWayData[row][col] = data
-            }
-            else {
+            } else {
                 col++
                 bigEyeWayData[row][col] = data
             }
@@ -528,7 +716,10 @@ cc.Class({
                 // var height = 12.5
                 var width = 15
                 var height = 15
-                item.position = { x: (row - 1) * width, y: (6 - col) * height }
+                item.position = {
+                    x: (row - 1) * width,
+                    y: (6 - col) * height
+                }
             }
         }
     },
@@ -559,8 +750,7 @@ cc.Class({
                     //无结果且同列的上一行也无结果，则有规则
                     else if (!bigwayData[i - 2][j] && !bigwayData[i - 2][j - 1]) {
                         array.push(true)
-                    }
-                    else {
+                    } else {
                         array.push(false)
                     }
                 }
@@ -588,8 +778,7 @@ cc.Class({
                 smallWayData[row] = {}
                 col = 1
                 smallWayData[row][col] = data
-            }
-            else {
+            } else {
                 col++
                 smallWayData[row][col] = data
             }
@@ -635,7 +824,10 @@ cc.Class({
                 // var height = 12
                 var width = 15
                 var height = 15
-                item.position = { x: (row - 1) * width, y: (6 - col) * height }
+                item.position = {
+                    x: (row - 1) * width,
+                    y: (6 - col) * height
+                }
             }
         }
     },
@@ -666,8 +858,7 @@ cc.Class({
                     //无结果且同列的上一行也无结果，则有规则
                     else if (!bigwayData[i - 3][j] && !bigwayData[i - 3][j - 1]) {
                         array.push(true)
-                    }
-                    else {
+                    } else {
                         array.push(false)
                     }
                 }
@@ -695,8 +886,7 @@ cc.Class({
                 smQiangWayData[row] = {}
                 col = 1
                 smQiangWayData[row][col] = data
-            }
-            else {
+            } else {
                 col++
                 smQiangWayData[row][col] = data
             }
@@ -742,13 +932,17 @@ cc.Class({
                 // var height = 12
                 var width = 15
                 var height = 15
-                item.position = { x: (row - 1) * width, y: (6 - col) * height }
+                item.position = {
+                    x: (row - 1) * width,
+                    y: (6 - col) * height
+                }
             }
         }
     },
 
     initForecastView: function (qipailuData) {
         var self = this
+
         function getForecastData(type, tmpQiPaiLu) {
             function getLastData(data) {
                 var maxRow = tableNums(data)
@@ -758,7 +952,10 @@ cc.Class({
                 var maxCol = tableNums(data[maxRow])
                 return data[maxRow][maxCol]
             }
-            tmpQiPaiLu.push({ state_list: [type], points: 9 })
+            tmpQiPaiLu.push({
+                state_list: [type],
+                points: 9
+            })
             var bigWayData = self.getBigWayData(tmpQiPaiLu)
             var bigEyeWayData = self.getBigEyeWayData(bigWayData)
             var smallWayData = self.getSmallWayData(bigWayData)
@@ -802,11 +999,11 @@ cc.Class({
         // this.test()
     },
 
-    hideZXdui(){
+    hideZXdui() {
         this.find("zzd").node.active = false;
         this.find("xzd").node.active = false;
         this.find("hzd").node.active = false;
-        
+
         this.find("zxd").node.active = false;
         this.find("xxd").node.active = false;
         this.find("hxd").node.active = false;
@@ -816,12 +1013,12 @@ cc.Class({
         this.find("checkTianPai").getComponent(cc.Toggle).isChecked = false;
 
     },
-    onCheckedBox(){
+    onCheckedBox() {
         if (this.find("checkZhuangDui").getComponent(cc.Toggle).isChecked) {
             this.find("zzd").node.active = true;
             this.find("xzd").node.active = true;
             this.find("hzd").node.active = true;
-        }else{
+        } else {
             this.find("zzd").node.active = false;
             this.find("xzd").node.active = false;
             this.find("hzd").node.active = false;
@@ -831,41 +1028,48 @@ cc.Class({
             this.find("zxd").node.active = true;
             this.find("xxd").node.active = true;
             this.find("hxd").node.active = true;
-        }else{
+        } else {
             this.find("zxd").node.active = false;
             this.find("xxd").node.active = false;
             this.find("hxd").node.active = false;
         }
     },
-    
-    showLoading(data){
+
+    showLoading(data) {
         let loading = this.find("wayLoading");
-        
+
         let zhuang = loading.getChildByName('zhuang')
         let xian = loading.getChildByName('xian')
         let he = loading.getChildByName('he')
-        
+
         zhuang.active = data == 1;
         xian.active = data == 2;
         he.active = data == 3;
         loading.active = true;
         let delay = cc.delayTime(1);
         loading.active = true;
-        let callFun = cc.callFunc(()=>{
+        let callFun = cc.callFunc(() => {
             loading.active = false;
         });
-        loading.runAction(cc.sequence(delay,callFun));
+        loading.runAction(cc.sequence(delay, callFun));
     },
-    hideLoading(){
+    hideLoading() {
         this.find("wayLoading").active = false;
     },
-    
-    addData(event,data){
-        data= parseInt(data);
+
+    addData(event, data) {
+        if (this.isPreView) {
+            this.setData([])
+            this.isPreView = false;
+        }
+        data = parseInt(data);
         this.showLoading(data);
         this.wayData = this.wayData || [];
-        let item = {state_list:[data],points:''};
+        let item = {
+            state_list: [data],
+        };
         // item.state_list.push(data);
+        let isdui = false;
         if (this.find("checkZhuangDui").getComponent(cc.Toggle).isChecked) {
             item.state_list.push(4);
         }
@@ -878,9 +1082,11 @@ cc.Class({
         this.wayData.push(item);
         this.hideZXdui();
         this.setData(this.wayData);
+        this.isWayOver = false;
         // this.hideLoading();
     },
-    removeData(event,data){
+    
+    removeData(event, data) {
         if (this.isPreView) {
             this.clear();
             this.wayData = [];
@@ -891,27 +1097,34 @@ cc.Class({
         if (data == '1') {
             if (this.wayData.length > 0) {
                 this.wayData.pop();
+            }else{
+                this.isWayOver = true;
             }
-        }else if(data == '2'){
-            if(this.wayData.length > 0){
+            
+        } else if (data == '2') {
+            if (this.wayData.length > 0) {
 
                 // let data = this.packData();
-                this.storageWayData.unshift(this.wayData);
+                let tempData = this.wayData.slice(0);
+                this.storageWayData.unshift(tempData);
                 this.writeData();
                 this.list.set_data(this.storageWayData);
-                cc.log(this.storageWayData);
             }
             this.wayData = [];
+            this.isWayOver = true;
         }
 
         this.setData(this.wayData);
+        this.upload();
     },
 
-    preView(data){
-        this.isPreView = true;
-        this.setData(data);
+    preView(data) {
+        if (this.isWayOver) {     
+            this.isPreView = true;
+            this.setData(data);
+        }
     },
-    packData(){
+    packData() {
         var zhuang, xian, he, tianpai, zhuangdui, xiandui
         zhuang = xian = he = tianpai = zhuangdui = xiandui = 0
         for (var i = 0; i < this.wayData.length; i++) {
@@ -955,35 +1168,38 @@ cc.Class({
         return model;
     },
 
-    readData(){
+    readData() {
         let data = cc.sys.localStorage.getItem(this._data_saveName);
         if (data && data != 'undefined') {
             let storageData = JSON.parse(data);
-            this.storageWayData = this.objToArray(storageData);
+            // this.storageWayData = this.objToArray(storageData);
+            this.storageWayData = storageData;
         }
     },
-    writeData(){
-        let data = this.arrayToObj();
-        var jsonStr = JSON.stringify(data);
-        cc.sys.localStorage.setItem(this._data_saveName,jsonStr);
+    writeData() {
+        // let wayBillList = this.arrayToObj();
+        let wayBillList = this.storageWayData;
+        var jsonStr = JSON.stringify(wayBillList);
+        cc.sys.localStorage.setItem(this._data_saveName, jsonStr);
     },
 
-    arrayToObj(){
+    arrayToObj() {
+        cc.log(JSON.stringify(this.storageWayData))
         let data = {};
         for (let i = 0; i < this.storageWayData.length; i++) {
             let way = this.storageWayData[i];
-            let  newItem = {};
+            let newItem = {};
             for (let j = 0; j < way.length; j++) {
                 let item = way[j];
-                newItem[j+''] = {};
-                newItem[j+''].state_list = item.state_list;
-                newItem[j+''].points = item.points;
+                newItem[j + ''] = {};
+                newItem[j + ''].state_list = item.state_list;
+                newItem[j + ''].points = item.points;
             }
             data[i + ''] = newItem;
         }
         return data;
     },
-    objToArray(storageData){
+    objToArray(storageData) {
         let data = [];
         for (const key in storageData) {
             if (storageData.hasOwnProperty(key)) {
@@ -996,10 +1212,43 @@ cc.Class({
                     }
                 }
                 data[parseInt(key)] = newWay;
-                
+
             }
         }
         return data;
-    }
+    },
+ 
+    upload() {
+        let data = cc.sys.localStorage.getItem(this._data_lastUploadLength);
+        let uploadData = []
+        if (data && data > this.storageWayData.length) {
+            let diff = data - this.storageWayData.length;
+            uploadData = this.storageWayData.slice(0,diff);
+        }
+        if (uploadData.length == 0) {
+            uploadData = this.storageWayData;
+        }
+
+        if (uploadData.length > 0) {
+            let data = {};
+            data.deviceId = this.getDeviceId();
+            data.wayBillList = uploadData;
+            var jsonStr = JSON.stringify(data);
+
+            cc.log('upload', data, jsonStr)
+        }
+    },
+
+    getDeviceId() {
+        // NSString* imei = [DeviceTools getIDFV];
+        let id = 0;
+        if (cc.sys.platform == cc.sys.OS_IOS) {
+            id = jsb.reflection.callStaticMethod('DeviceTools', 'getIDFV');
+        } else if (cc.sys.platform == cc.sys.OS_ANDROID) {
+
+        }
+        cc.log('device id:', id);
+        return id;
+    },
 
 });

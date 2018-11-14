@@ -43,14 +43,15 @@ cc.Class({
 
         
         var color = cc.Color.BLACK;
+        let points = '';
         //天牌变橙色
         if (-1 != data.state_list.indexOf(6) || -1 != data.state_list.indexOf(7)) {
-            data.points = '●'
+            points = '●'
             this.find("txtPoint").node.color = color.fromHEX("#FDB13F")
         } else {
             this.find("txtPoint").node.color = color
         }
-        this.find("txtPoint").string = data.points
+        this.find("txtPoint").string = points
     },
 
     setHe: function (isHe) {

@@ -265,9 +265,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 154,
+      "g": 173,
+      "b": 248,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -4098,7 +4098,7 @@
     },
     "_children": [],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 132
@@ -5973,8 +5973,8 @@
     "_scaleY": 1.5,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -55,
-      "y": 0
+      "x": -48,
+      "y": 10
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -6321,8 +6321,8 @@
     "_scaleY": 1.5,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 48,
+      "y": 10
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -6669,8 +6669,8 @@
     "_scaleY": 1.5,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 55,
-      "y": 0
+      "x": 0,
+      "y": -52.6
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -7015,7 +7015,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -50,
-      "y": -64
+      "y": -96
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -7277,7 +7277,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 50,
-      "y": -64
+      "y": -96
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -7356,7 +7356,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "结局",
+    "_N$string": "结单",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -7539,7 +7539,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -55,
-      "y": 53
+      "y": 79
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -8153,7 +8153,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 53
+      "y": 79
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -8767,7 +8767,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 55,
-      "y": 53
+      "y": 79
     },
     "_skewX": 0,
     "_skewY": 0,

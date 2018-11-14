@@ -16,7 +16,7 @@
   "orientation": {
     "landscapeLeft": true,
     "landscapeRight": true,
-    "portrait": true,
+    "portrait": false,
     "upsideDown": false
   },
   "packageName": "com.ddpkcc.game.mahjong",
