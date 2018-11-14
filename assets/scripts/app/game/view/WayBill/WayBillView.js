@@ -24,6 +24,7 @@ cc.Class({
         this._data_saveName = 'way_bill_data' + 10
         this._data_lastUploadLength = "way_bill_data_last_Length";
         this.isPreView = false; //是否预览;
+        this.isWayOver = true;
         this.storageWayData = [];
         this.readData();
         this.scrollview = this.find("historyList").getComponent(cc.ScrollView);
@@ -55,12 +56,19 @@ cc.Class({
             this.find("imgXian" + i).node.active = false
         }
         this.find("txtJushu").string = "局数:0"
-        this.find("txtZhuang").string = "0"
-        this.find("txtXian").string = "0"
-        this.find("txtHe").string = "0"
-        this.find("txtTian").string = "0"
-        this.find("txtZhuangdui").string = "0"
-        this.find("txtXiandui").string = "0"
+        // this.find("txtZhuang").string = "0"
+        // this.find("txtXian").string = "0"
+        // this.find("txtHe").string = "0"
+        // this.find("txtTian").string = "0"
+        // this.find("txtZhuangdui").string = "0"
+        // this.find("txtXiandui").string = "0"
+
+        this.find("txtZhuang").string = "庄:" + 0
+        this.find("txtXian").string = "闲:" + 0
+        this.find("txtHe").string = "和:" + 0
+        this.find("txtTian").string = "天牌:" + 0
+        this.find("txtZhuangdui").string = "庄对:" + 0
+        this.find("txtXiandui").string = "闲对:" + 0
     },
 
     list_item_setter(item, data, index) {
