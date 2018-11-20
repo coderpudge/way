@@ -1227,36 +1227,104 @@ cc.Class({
     },
  
     upload() {
-        let data = cc.sys.localStorage.getItem(this._data_lastUploadLength);
+        if (this.sending) {
+            return;
+        }
+        let lastLen = cc.sys.localStorage.getItem(this._data_lastUploadLength);
+        if (!lastLen) {
+            lastLen = 0;
+        }
+        lastLen = parseInt(lastLen);
         let uploadData = []
-        if (data && data > this.storageWayData.length) {
-            let diff = data - this.storageWayData.length;
+        let len = this.storageWayData.length;
+        let diff = len - lastLen;
+
+        if (diff <= 0 ) {
+            return;
+        }else{
             uploadData = this.storageWayData.slice(0,diff);
         }
-        if (uploadData.length == 0) {
-            uploadData = this.storageWayData;
-        }
-
+       
         if (uploadData.length > 0) {
             let data = {};
             data.deviceId = this.getDeviceId();
+            data.os = cc.sys.os;
             data.wayBillList = uploadData;
             var jsonStr = JSON.stringify(data);
 
             cc.log('upload', data, jsonStr)
+            this.sending = true;
+            this.send(data,()=>{
+                cc.sys.localStorage.setItem(this._data_lastUploadLength,len);
+                this.sending = false;
+            });
         }
     },
 
     getDeviceId() {
         // NSString* imei = [DeviceTools getIDFV];
         let id = 0;
-        if (cc.sys.platform == cc.sys.OS_IOS) {
+        // cc.sys.os  cc.sys.platform
+        if (cc.sys.os == cc.sys.OS_IOS) {
+            cc.log("ios")
             id = jsb.reflection.callStaticMethod('DeviceTools', 'getIDFV');
-        } else if (cc.sys.platform == cc.sys.OS_ANDROID) {
-
+        } else if (cc.sys.os == cc.sys.OS_ANDROID) {
+            cc.log("android")
+            id = jsb.reflection.callStaticMethod('tools/DeviceTools', 'getMacAddress', "()Ljava/lang/String;");
         }
         cc.log('device id:', id);
         return id;
     },
+
+    send(data,cb){
+        // data = [1,2,3,4,5];
+        var xhr = cc.loader.getXMLHttpRequest()
+        // this.streamXHREventsToLabel(xhr, this.xhrAB, this.xhrABResp, "POST");
+        xhr.ontimeout = function() {
+            cc.log("ontimeout")
+        };
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+                var response = xhr.responseText;
+                console.log(response);
+                if (cb) {
+                    cb();
+                }
+            }
+        };
+        
+        xhr.open("POST", "https://httpbin.org/post");
+        xhr.timeout = 2000
+        //set Content-type "text/plain" to post ArrayBuffer or ArrayBufferView
+        xhr.setRequestHeader("Content-Type","text/plain");
+        // Uint8Array is an ArrayBufferView
+        let dataView = new Uint8Array(data.wayBillList);
+        xhr.send(JSON.stringify(data));
+    },
+
+    streamXHREventsToLabel: function ( xhr, eventLabel, label, method, responseHandler ) {
+        var handler = responseHandler || function (response) {
+            return method + " Response (30 chars): " + response.substring(0, 30) + "...";
+        };
+        
+        var eventLabelOrigin = eventLabel.string;
+        // Simple events
+        ['loadstart', 'abort', 'error', 'load', 'loadend', 'timeout'].forEach(function (eventname) {
+            xhr["on" + eventname] = function () {
+                eventLabel.string = eventLabelOrigin + "\nEvent : " + eventname;
+                if (eventname === 'timeout') {
+                    label.string = '(timeout)';
+                }
+            };
+        });
+    
+        // Special event
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
+                label.string = handler(xhr.responseText);
+            }
+        };
+    }
+
 
 });
