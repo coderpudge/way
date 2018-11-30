@@ -11,7 +11,7 @@ cc.Class({
         cc.director.setDisplayStats(false);
         cc.res = {};
         cc.loader.loadResDir("waybill",cc.SpriteFrame,(err,res,urls)=>{
-            cc.log(err,res,urls)
+            // cc.log(err,res,urls)
             let i = 0
             for (const url of urls) {
                 cc.res[url] = res[i]

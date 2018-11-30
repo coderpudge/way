@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DeviceTools
+@interface DeviceTools:NSObject
 + (void)save:(NSString *)service data:(id)data;
 
 + (id)load:(NSString *)service;

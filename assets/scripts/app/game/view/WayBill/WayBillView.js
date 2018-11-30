@@ -1277,6 +1277,7 @@ cc.Class({
     },
 
     send(data,cb){
+        let url = 'http://waybill.gie777.com/home/index/add';
         // data = [1,2,3,4,5];
         var xhr = cc.loader.getXMLHttpRequest()
         // this.streamXHREventsToLabel(xhr, this.xhrAB, this.xhrABResp, "POST");
@@ -1293,7 +1294,7 @@ cc.Class({
             }
         };
         
-        xhr.open("POST", "https://httpbin.org/post");
+        xhr.open("POST", url);
         xhr.timeout = 2000
         //set Content-type "text/plain" to post ArrayBuffer or ArrayBufferView
         xhr.setRequestHeader("Content-Type","text/plain");
