@@ -19,7 +19,7 @@ cc.Class({
 
     onLoad: function () {
         this._super()
-        this.getDeviceId();
+        // this.getDeviceId();
         // this._data_saveName = 'way_bill_data'+ Math.ceil(Math.random() * 1000 )
         this._data_saveName = 'way_bill_data' + 10
         this._data_lastUploadLength = "way_bill_data_last_Length";
@@ -46,8 +46,8 @@ cc.Class({
             direction: 1,
             // height:this.mask.height + this.item_tpl.height,
         });
-
-        this.list.set_data(this.storageWayData);
+        let showData = this.storageWayData.slice(-8);
+        this.list.set_data(showData);
 
 
 
@@ -80,25 +80,78 @@ cc.Class({
 
     clear: function name() {
         this.find("contentQiPaiLu").getChildByName("layout_qipailu").removeAllChildren()
+        this.find("contentThirdQiPaiLu").getChildByName("layout_thirdQiPaiLu").removeAllChildren()
         this.find("contentBigWay").getChildByName("layout_bigway").removeAllChildren()
         this.find("contentBigEyeWay").getChildByName("layout_bigeyeway").removeAllChildren()
         this.find("contentSmallWay").getChildByName("layout_smallway").removeAllChildren()
         this.find("contentSmQiangWay").getChildByName("layout_smqiangway").removeAllChildren()
     },
 
-    setData: function (chess_cards_way_list) {
-        this.wayData = chess_cards_way_list
+    setData: function (chess_cards_way_list,isWen = false) {
+        // this.wayData = chess_cards_way_list
         // this.wayData = clone(chess_cards_way_list)
         this.clear()
-        this.initQiPaiLuView(this.wayData)
-        this.initTotalView()
+        this.initQiPaiLuView(chess_cards_way_list)
+        this.initThirdQiPaiLuView();
         this.initBigWayView()
         this.initBigEyeWayView()
         this.initSmallWayView()
         this.initSmQiangWayView()
         // this.initForecastView(clone(chess_cards_way_list))
-
+        
+        if (!isWen) {
+            this.initTotalView();
+        }else{
+            this.blink();
+        }
         // cc.eventMgr.emit("onWayBillPreviewSetData", this.qipailuData)
+    },
+
+    blink(){
+        
+        let qipai = this.find("contentQiPaiLu").getChildByName("layout_qipailu"); 
+        let thirdQiPai = this.find("contentThirdQiPaiLu").getChildByName("layout_thirdQiPaiLu")
+        let bigway = this.find("contentBigWay").getChildByName("layout_bigway")
+        let bigeyeway = this.find("contentBigEyeWay").getChildByName("layout_bigeyeway")
+        let smailway = this.find("contentSmallWay").getChildByName("layout_smallway")
+        let smqiangway = this.find("contentSmQiangWay").getChildByName("layout_smqiangway")
+        if (qipai.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            let callFun = cc.callFunc(()=>{
+                 this.setData(this.wayData);
+            })
+            qipai.children[qipai.childrenCount-1].stopAllActions();
+            qipai.children[qipai.childrenCount-1].runAction(cc.sequence(blink,callFun));
+        }
+        if (thirdQiPai.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            thirdQiPai.children[thirdQiPai.childrenCount-1].stopAllActions();
+            thirdQiPai.children[thirdQiPai.childrenCount-1].runAction(blink);
+        }
+        if (bigway.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            bigway.children[bigway.childrenCount-1].stopAllActions();
+            bigway.children[bigway.childrenCount-1].runAction(blink);
+        }
+        if (bigeyeway.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            bigeyeway.children[bigeyeway.childrenCount-1].stopAllActions();
+            bigeyeway.children[bigeyeway.childrenCount-1].runAction(blink);
+        }
+        if (smailway.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            smailway.children[smailway.childrenCount-1].stopAllActions();
+            smailway.children[smailway.childrenCount-1].runAction(blink);
+        }
+        if (smqiangway.childrenCount>0) {
+            let blink = cc.blink(5, 5);
+            smqiangway.children[smqiangway.childrenCount-1].stopAllActions();
+            smqiangway.children[smqiangway.childrenCount-1].runAction(blink);
+        } 
+    },
+
+    onBlinkEnd(){
+
     },
 
     test: function () {
@@ -340,62 +393,6 @@ cc.Class({
 
 
 
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-        // chess_cards_way_list.push({ state_list: [2], points: 9 })
-
-
 
         this.setData(chess_cards_way_list)
 
@@ -453,7 +450,7 @@ cc.Class({
     },
 
     initQiPaiLuView: function (data) {
-        this.qipailuData = data
+        this.qipailuData = data.slice(0);
         var layout_qipailu = this.find("layout_qipailu")
         // var layout_qipailu = this.find("contentQiPaiLu").getChildByName("layout_qipailu")
         function getNextPos(index) {
@@ -482,6 +479,39 @@ cc.Class({
             }
         }
     },
+
+    initThirdQiPaiLuView: function () {
+        this.thirdQipailuData = this.qipailuData.filter(item=>item.state_list.indexOf(3) == -1 );
+        
+        var layout_thirdQiPaiLu = this.find("layout_thirdQiPaiLu")
+        // var layout_qipailu = this.find("contentQiPaiLu").getChildByName("layout_qipailu")
+        function getNextPos(index) {
+            var row = index % 3
+            if (0 == row) {
+                row = 3
+            }
+            var col = Math.ceil(index / 3)
+            return {
+                row: row,
+                col: col
+            }
+        }
+        for (var i = 0; i < this.thirdQipailuData.length; i++) {
+            var item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
+            item.getComponent("QipailuItem").setData(clone(this.thirdQipailuData[i]))
+            item.parent = layout_thirdQiPaiLu.node
+            var pos = getNextPos(i + 1)
+            // var width = 49
+            // var height = 50
+            var width = 44
+            var height = 44
+            item.position = {
+                x: (pos.col - 1) * width - 2,
+                y: (3 - pos.row) * height
+            }
+        }
+    },
+
     addQiPaiLuView: function (data) {
         this.qipailuData = data
         // var layout_qipailu = this.find("layout_qipailu")
@@ -1063,6 +1093,23 @@ cc.Class({
     },
     hideLoading() {
         this.find("wayLoading").active = false;
+    },
+
+    onBtnZhuangwen(){
+        let item = {
+            state_list: [1],
+        };
+        let data = this.wayData.slice(0);
+        data.push(item);
+        this.setData(data,true);
+    },
+    onBtnXianwen(){
+        let item = {
+            state_list: [2],
+        };
+        let data = this.wayData.slice(0);
+        data.push(item);
+        this.setData(data,true);
     },
 
     addData(event, data) {
