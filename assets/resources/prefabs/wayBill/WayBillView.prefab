@@ -11771,7 +11771,7 @@
         "__id__": 373
       }
     ],
-    "_N$interactable": false,
+    "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
       "__type__": "cc.Color",
