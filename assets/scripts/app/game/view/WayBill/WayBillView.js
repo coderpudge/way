@@ -1096,6 +1096,9 @@ cc.Class({
     },
 
     onBtnZhuangwen(){
+        if (!this.wayData || this.wayData.length == 0) {
+            return;
+        }
         let item = {
             state_list: [1],
         };
@@ -1104,6 +1107,9 @@ cc.Class({
         this.setData(data,true);
     },
     onBtnXianwen(){
+        if (!this.wayData || this.wayData.length == 0) {
+            return;
+        }
         let item = {
             state_list: [2],
         };
