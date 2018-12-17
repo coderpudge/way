@@ -11,22 +11,34 @@ cc.Class({
     },
 
     //data: {state_list: [1], points: 9}
-    setData: function (data) {
+    setData: function (data, language = 'zh') {
         this.data = data
         data.state_list.sort()
         this.find("zd").node.active = false
         this.find("xd").node.active = false
         if (-1 != data.state_list.indexOf(1)) {
             // this.find("txtName").string = "庄"
-            this.find("bg").spriteFrame = cc.res["waybill/zhuang"]
+            if (language == 'zh') {
+                this.find("bg").spriteFrame = cc.res["waybill/zhuang"]
+            }else{
+                this.find("bg").spriteFrame = cc.res["waybill/zhuang2"]
+            }
         }
         if (-1 != data.state_list.indexOf(2)) {
             // this.find("txtName").string = "闲"
-            this.find("bg").spriteFrame = cc.res["waybill/xian"]
+            if (language == 'zh') {
+                this.find("bg").spriteFrame = cc.res["waybill/xian"]
+            }else{
+                this.find("bg").spriteFrame = cc.res["waybill/xian2"]
+            }
         }
         if (-1 != data.state_list.indexOf(3)) {
             // this.find("txtName").string = "和"
-            this.find("bg").spriteFrame = cc.res["waybill/he"]
+            if (language == 'zh') {
+                this.find("bg").spriteFrame = cc.res["waybill/he"]
+            }else{
+                this.find("bg").spriteFrame = cc.res["waybill/he2"]
+            }
         }
         //庄对
         if (-1 != data.state_list.indexOf(4)) {

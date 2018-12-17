@@ -115,8 +115,9 @@ cc.Class({
         let bigeyeway = this.find("contentBigEyeWay").getChildByName("layout_bigeyeway")
         let smailway = this.find("contentSmallWay").getChildByName("layout_smallway")
         let smqiangway = this.find("contentSmQiangWay").getChildByName("layout_smqiangway")
+        let delay = 3600;
         if (qipai.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             let callFun = cc.callFunc(()=>{
                  this.setData(this.wayData);
             })
@@ -124,27 +125,27 @@ cc.Class({
             qipai.children[qipai.childrenCount-1].runAction(cc.sequence(blink,callFun));
         }
         if (thirdQiPai.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             thirdQiPai.children[thirdQiPai.childrenCount-1].stopAllActions();
             thirdQiPai.children[thirdQiPai.childrenCount-1].runAction(blink);
         }
         if (bigway.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             bigway.children[bigway.childrenCount-1].stopAllActions();
             bigway.children[bigway.childrenCount-1].runAction(blink);
         }
         if (bigeyeway.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             bigeyeway.children[bigeyeway.childrenCount-1].stopAllActions();
             bigeyeway.children[bigeyeway.childrenCount-1].runAction(blink);
         }
         if (smailway.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             smailway.children[smailway.childrenCount-1].stopAllActions();
             smailway.children[smailway.childrenCount-1].runAction(blink);
         }
         if (smqiangway.childrenCount>0) {
-            let blink = cc.blink(5, 5);
+            let blink = cc.blink(delay, delay);
             smqiangway.children[smqiangway.childrenCount-1].stopAllActions();
             smqiangway.children[smqiangway.childrenCount-1].runAction(blink);
         } 
@@ -498,7 +499,7 @@ cc.Class({
         }
         for (var i = 0; i < this.thirdQipailuData.length; i++) {
             var item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
-            item.getComponent("QipailuItem").setData(clone(this.thirdQipailuData[i]))
+            item.getComponent("QipailuItem").setData(clone(this.thirdQipailuData[i]),'en')
             item.parent = layout_thirdQiPaiLu.node
             var pos = getNextPos(i + 1)
             // var width = 49
@@ -1116,6 +1117,45 @@ cc.Class({
         let data = this.wayData.slice(0);
         data.push(item);
         this.setData(data,true);
+    },
+
+    showADImg(url,cb){
+        // let url = 'http://waybill.gie777.com/ad.json';
+        // data = [1,2,3,4,5];
+        var xhr = cc.loader.getXMLHttpRequest()
+        // this.streamXHREventsToLabel(xhr, this.xhrAB, this.xhrABResp, "POST");
+        xhr.ontimeout = function() {
+            cc.log("ontimeout")
+        };
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+                var response = xhr.responseText;
+                console.log(response);
+                if (cb) {
+                    cb(response);
+                }
+            }
+        };
+        
+        xhr.open("GET", url,true);
+        xhr.timeout = 5000
+        //set Content-type "text/plain" to post ArrayBuffer or ArrayBufferView
+        // xhr.setRequestHeader("Content-Type","text/plain");
+        if (cc.sys.isNative) {
+            xhr.setRequestHeader("Accept-Encoding","gzip,deflate");
+        }
+        // Uint8Array is an ArrayBufferView
+        // let dataView = new Uint8Array(data.wayBillList);
+        xhr.send();
+    },
+
+    onBtnAd(){
+        let url = 'http://waybill.gie777.com/ad.json';
+        let url2 = 'http://www.gie777.com'
+        this.showADImg(url,(json)=>{
+
+        });
+        cc.sys.openURL(url2);
     },
 
     addData(event, data) {
