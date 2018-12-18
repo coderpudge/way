@@ -20,6 +20,7 @@ cc.Class({
     onLoad: function () {
         this._super()
         this.initAd();
+        this.initAnalytics();
         // this.getDeviceId();
         // this._data_saveName = 'way_bill_data'+ Math.ceil(Math.random() * 1000 )
         this._data_saveName = 'way_bill_data' + 10
@@ -1433,7 +1434,19 @@ cc.Class({
                 label.string = handler(xhr.responseText);
             }
         };
-    }
+    },
 
+
+    initAnalytics(){
+        //ANALYTICS: login
+        cocosAnalytics.CAAccount.loginStart();
+        cocosAnalytics.CAAccount.loginSuccess({'deviceId':this.getDeviceId()});
+        // 设置帐号类型
+        // cocosAnalytics.CAAccount.setAccountType('VIP1');
+        // 年龄
+        // cocosAnalytics.CAAccount.setAge(18);
+        // 性别：1为男，2为女，其它表示未知
+        // cocosAnalytics.CAAccount.setGender(2);
+    }
 
 });
