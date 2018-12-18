@@ -19,6 +19,7 @@ cc.Class({
 
     onLoad: function () {
         this._super()
+        this.initAd();
         // this.getDeviceId();
         // this._data_saveName = 'way_bill_data'+ Math.ceil(Math.random() * 1000 )
         this._data_saveName = 'way_bill_data' + 10
@@ -1149,13 +1150,27 @@ cc.Class({
         xhr.send();
     },
 
-    onBtnAd(){
+    initAd(){
         let url = 'http://waybill.gie777.com/ad.json';
-        let url2 = 'http://www.gie777.com'
-        this.showADImg(url,(json)=>{
+        this.showADImg(url,(data)=>{
+            this.adJson = JSON.parse(data);
+            cc.loader.load(this.adJson.img,(err,res)=>{
+            // cc.loader.load({url:'https://thirdqq.qlogo.cn/g?b=sdk&k=zTZwwyd85CzdQUjM93h14g&s=100&t=1537753864',type:'jpg'},(err,res)=>{
+                if (!err) {
+                    let tex = {width:400,height:200};
+                    var spriteFrame = new cc.SpriteFrame(res, cc.Rect(0, 0, tex.width, tex.height));
+                    let adImg = cc.find('Canvas/Canvas/body/right/ad/adImg')
+                    adImg.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+                }
+            })
+        }); 
+    },
 
-        });
-        cc.sys.openURL(url2);
+    onBtnAd(){
+        if (this.adJson && this.adJson.open) {
+            cc.sys.openURL(this.adJson.url);
+            this.initAd();
+        }
     },
 
     addData(event, data) {
