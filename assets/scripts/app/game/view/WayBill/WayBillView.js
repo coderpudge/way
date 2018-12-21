@@ -1168,7 +1168,7 @@ cc.Class({
     },
 
     onBtnAd(){
-        if (this.adJson && this.adJson.open) {
+        if (this.adJson && this.adJson.open == '1') {
             cc.sys.openURL(this.adJson.url);
             this.initAd();
         }
