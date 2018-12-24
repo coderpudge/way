@@ -89,7 +89,7 @@ cc.Class({
         this.find("contentSmQiangWay").getChildByName("layout_smqiangway").removeAllChildren()
     },
 
-    setData: function (chess_cards_way_list,isWen = false) {
+    setData: function (chess_cards_way_list, isWen = false) {
         // this.wayData = chess_cards_way_list
         // this.wayData = clone(chess_cards_way_list)
         this.clear()
@@ -100,60 +100,60 @@ cc.Class({
         this.initSmallWayView()
         this.initSmQiangWayView()
         // this.initForecastView(clone(chess_cards_way_list))
-        
+
         if (!isWen) {
             this.initTotalView();
-        }else{
+        } else {
             this.blink();
         }
         // cc.eventMgr.emit("onWayBillPreviewSetData", this.qipailuData)
     },
 
-    blink(){
-        
-        let qipai = this.find("contentQiPaiLu").getChildByName("layout_qipailu"); 
+    blink() {
+
+        let qipai = this.find("contentQiPaiLu").getChildByName("layout_qipailu");
         let thirdQiPai = this.find("contentThirdQiPaiLu").getChildByName("layout_thirdQiPaiLu")
         let bigway = this.find("contentBigWay").getChildByName("layout_bigway")
         let bigeyeway = this.find("contentBigEyeWay").getChildByName("layout_bigeyeway")
         let smailway = this.find("contentSmallWay").getChildByName("layout_smallway")
         let smqiangway = this.find("contentSmQiangWay").getChildByName("layout_smqiangway")
         let delay = 3600;
-        if (qipai.childrenCount>0) {
+        if (qipai.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            let callFun = cc.callFunc(()=>{
-                 this.setData(this.wayData);
+            let callFun = cc.callFunc(() => {
+                this.setData(this.wayData);
             })
-            qipai.children[qipai.childrenCount-1].stopAllActions();
-            qipai.children[qipai.childrenCount-1].runAction(cc.sequence(blink,callFun));
+            qipai.children[qipai.childrenCount - 1].stopAllActions();
+            qipai.children[qipai.childrenCount - 1].runAction(cc.sequence(blink, callFun));
         }
-        if (thirdQiPai.childrenCount>0) {
+        if (thirdQiPai.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            thirdQiPai.children[thirdQiPai.childrenCount-1].stopAllActions();
-            thirdQiPai.children[thirdQiPai.childrenCount-1].runAction(blink);
+            thirdQiPai.children[thirdQiPai.childrenCount - 1].stopAllActions();
+            thirdQiPai.children[thirdQiPai.childrenCount - 1].runAction(blink);
         }
-        if (bigway.childrenCount>0) {
+        if (bigway.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            bigway.children[bigway.childrenCount-1].stopAllActions();
-            bigway.children[bigway.childrenCount-1].runAction(blink);
+            bigway.children[bigway.childrenCount - 1].stopAllActions();
+            bigway.children[bigway.childrenCount - 1].runAction(blink);
         }
-        if (bigeyeway.childrenCount>0) {
+        if (bigeyeway.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            bigeyeway.children[bigeyeway.childrenCount-1].stopAllActions();
-            bigeyeway.children[bigeyeway.childrenCount-1].runAction(blink);
+            bigeyeway.children[bigeyeway.childrenCount - 1].stopAllActions();
+            bigeyeway.children[bigeyeway.childrenCount - 1].runAction(blink);
         }
-        if (smailway.childrenCount>0) {
+        if (smailway.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            smailway.children[smailway.childrenCount-1].stopAllActions();
-            smailway.children[smailway.childrenCount-1].runAction(blink);
+            smailway.children[smailway.childrenCount - 1].stopAllActions();
+            smailway.children[smailway.childrenCount - 1].runAction(blink);
         }
-        if (smqiangway.childrenCount>0) {
+        if (smqiangway.childrenCount > 0) {
             let blink = cc.blink(delay, delay);
-            smqiangway.children[smqiangway.childrenCount-1].stopAllActions();
-            smqiangway.children[smqiangway.childrenCount-1].runAction(blink);
-        } 
+            smqiangway.children[smqiangway.childrenCount - 1].stopAllActions();
+            smqiangway.children[smqiangway.childrenCount - 1].runAction(blink);
+        }
     },
 
-    onBlinkEnd(){
+    onBlinkEnd() {
 
     },
 
@@ -484,8 +484,8 @@ cc.Class({
     },
 
     initThirdQiPaiLuView: function () {
-        this.thirdQipailuData = this.qipailuData.filter(item=>item.state_list.indexOf(3) == -1 );
-        
+        this.thirdQipailuData = this.qipailuData.filter(item => item.state_list.indexOf(3) == -1);
+
         var layout_thirdQiPaiLu = this.find("layout_thirdQiPaiLu")
         // var layout_qipailu = this.find("contentQiPaiLu").getChildByName("layout_qipailu")
         function getNextPos(index) {
@@ -501,7 +501,7 @@ cc.Class({
         }
         for (var i = 0; i < this.thirdQipailuData.length; i++) {
             var item = cc.instantiate(cc.res["prefabs/wayBill/QipailuItem"])
-            item.getComponent("QipailuItem").setData(clone(this.thirdQipailuData[i]),'en')
+            item.getComponent("QipailuItem").setData(clone(this.thirdQipailuData[i]), 'en')
             item.parent = layout_thirdQiPaiLu.node
             var pos = getNextPos(i + 1)
             // var width = 49
@@ -1098,7 +1098,7 @@ cc.Class({
         this.find("wayLoading").active = false;
     },
 
-    onBtnZhuangwen(){
+    onBtnZhuangwen() {
         if (!this.wayData || this.wayData.length == 0) {
             return;
         }
@@ -1107,9 +1107,9 @@ cc.Class({
         };
         let data = this.wayData.slice(0);
         data.push(item);
-        this.setData(data,true);
+        this.setData(data, true);
     },
-    onBtnXianwen(){
+    onBtnXianwen() {
         if (!this.wayData || this.wayData.length == 0) {
             return;
         }
@@ -1118,15 +1118,15 @@ cc.Class({
         };
         let data = this.wayData.slice(0);
         data.push(item);
-        this.setData(data,true);
+        this.setData(data, true);
     },
 
-    showADImg(url,cb){
+    showADImg(url, cb) {
         // let url = 'http://waybill.gie777.com/ad.json';
         // data = [1,2,3,4,5];
         var xhr = cc.loader.getXMLHttpRequest()
         // this.streamXHREventsToLabel(xhr, this.xhrAB, this.xhrABResp, "POST");
-        xhr.ontimeout = function() {
+        xhr.ontimeout = function () {
             cc.log("ontimeout")
         };
         xhr.onreadystatechange = function () {
@@ -1138,36 +1138,36 @@ cc.Class({
                 }
             }
         };
-        
-        xhr.open("GET", url,true);
+
+        xhr.open("GET", url, true);
         xhr.timeout = 5000
         //set Content-type "text/plain" to post ArrayBuffer or ArrayBufferView
         // xhr.setRequestHeader("Content-Type","text/plain");
         if (cc.sys.isNative) {
-            xhr.setRequestHeader("Accept-Encoding","gzip,deflate");
+            xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
         }
         // Uint8Array is an ArrayBufferView
         // let dataView = new Uint8Array(data.wayBillList);
         xhr.send();
     },
 
-    initAd(){
+    initAd() {
         let url = 'http://waybill.gie777.com/ad.json';
-        this.showADImg(url,(data)=>{
+        this.showADImg(url, (data) => {
             this.adJson = JSON.parse(data);
-            cc.loader.load(this.adJson.img,(err,res)=>{
-            // cc.loader.load({url:'https://thirdqq.qlogo.cn/g?b=sdk&k=zTZwwyd85CzdQUjM93h14g&s=100&t=1537753864',type:'jpg'},(err,res)=>{
+            cc.loader.load(this.adJson.img, (err, res) => {
+                // cc.loader.load({url:'https://thirdqq.qlogo.cn/g?b=sdk&k=zTZwwyd85CzdQUjM93h14g&s=100&t=1537753864',type:'jpg'},(err,res)=>{
                 if (!err) {
-                    let tex = {width:400,height:200};
+                    let tex = { width: 400, height: 200 };
                     var spriteFrame = new cc.SpriteFrame(res, cc.Rect(0, 0, tex.width, tex.height));
                     let adImg = cc.find('Canvas/Canvas/body/right/ad/adImg')
                     adImg.getComponent(cc.Sprite).spriteFrame = spriteFrame;
                 }
             })
-        }); 
+        });
     },
 
-    onBtnAd(){
+    onBtnAd() {
         if (this.adJson && this.adJson.open == '1') {
             cc.sys.openURL(this.adJson.url);
             this.initAd();
@@ -1202,7 +1202,7 @@ cc.Class({
         this.isWayOver = false;
         // this.hideLoading();
     },
-    
+
     removeData(event, data) {
         if (this.isPreView) {
             this.clear();
@@ -1214,10 +1214,10 @@ cc.Class({
         if (data == '1') {
             if (this.wayData.length > 0) {
                 this.wayData.pop();
-            }else{
+            } else {
                 this.isWayOver = true;
             }
-            
+
         } else if (data == '2') {
             if (this.wayData.length > 0) {
 
@@ -1236,7 +1236,7 @@ cc.Class({
     },
 
     preView(data) {
-        if (this.isWayOver) {     
+        if (this.isWayOver) {
             this.isPreView = true;
             this.setData(data);
         }
@@ -1334,7 +1334,7 @@ cc.Class({
         }
         return data;
     },
- 
+
     upload() {
         if (this.sending) {
             return;
@@ -1348,12 +1348,12 @@ cc.Class({
         let len = this.storageWayData.length;
         let diff = len - lastLen;
 
-        if (diff <= 0 ) {
+        if (diff <= 0) {
             return;
-        }else{
-            uploadData = this.storageWayData.slice(0,diff);
+        } else {
+            uploadData = this.storageWayData.slice(0, diff);
         }
-       
+
         if (uploadData.length > 0) {
             let data = {};
             data.deviceId = this.getDeviceId();
@@ -1363,8 +1363,8 @@ cc.Class({
 
             cc.log('upload', data, jsonStr)
             this.sending = true;
-            this.send(data,()=>{
-                cc.sys.localStorage.setItem(this._data_lastUploadLength,len);
+            this.send(data, () => {
+                cc.sys.localStorage.setItem(this._data_lastUploadLength, len);
                 this.sending = false;
             });
         }
@@ -1385,12 +1385,12 @@ cc.Class({
         return id;
     },
 
-    send(data,cb){
+    send(data, cb) {
         let url = 'http://waybill.gie777.com/home/index/add';
         // data = [1,2,3,4,5];
         var xhr = cc.loader.getXMLHttpRequest()
         // this.streamXHREventsToLabel(xhr, this.xhrAB, this.xhrABResp, "POST");
-        xhr.ontimeout = function() {
+        xhr.ontimeout = function () {
             cc.log("ontimeout")
         };
         xhr.onreadystatechange = function () {
@@ -1402,21 +1402,21 @@ cc.Class({
                 }
             }
         };
-        
+
         xhr.open("POST", url);
         xhr.timeout = 2000
         //set Content-type "text/plain" to post ArrayBuffer or ArrayBufferView
-        xhr.setRequestHeader("Content-Type","text/plain");
+        xhr.setRequestHeader("Content-Type", "text/plain");
         // Uint8Array is an ArrayBufferView
         let dataView = new Uint8Array(data.wayBillList);
         xhr.send(JSON.stringify(data));
     },
 
-    streamXHREventsToLabel: function ( xhr, eventLabel, label, method, responseHandler ) {
+    streamXHREventsToLabel: function (xhr, eventLabel, label, method, responseHandler) {
         var handler = responseHandler || function (response) {
             return method + " Response (30 chars): " + response.substring(0, 30) + "...";
         };
-        
+
         var eventLabelOrigin = eventLabel.string;
         // Simple events
         ['loadstart', 'abort', 'error', 'load', 'loadend', 'timeout'].forEach(function (eventname) {
@@ -1427,7 +1427,7 @@ cc.Class({
                 }
             };
         });
-    
+
         // Special event
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
@@ -1437,10 +1437,10 @@ cc.Class({
     },
 
 
-    initAnalytics(){
+    initAnalytics() {
         //ANALYTICS: login
         cocosAnalytics.CAAccount.loginStart();
-        cocosAnalytics.CAAccount.loginSuccess({'deviceId':this.getDeviceId()});
+        cocosAnalytics.CAAccount.loginSuccess({ 'deviceId': this.getDeviceId() });
         // 设置帐号类型
         // cocosAnalytics.CAAccount.setAccountType('VIP1');
         // 年龄
